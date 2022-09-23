@@ -1,68 +1,32 @@
-import { NEW_USER_SIGNUP } from "config/api/endpoints/signup"
-import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import SignupBtn from "components/Buttons/SignupBtn";
+import TextInputs from "components/Inputs/TextInputs";
+
 
 export default function SignUp() {
-    async function handleSignupClick() {
-        let signupEmail = document.getElementById('signupEmail');
-        let signupPassword = document.getElementById('signupPassword');
-        let signupPasswordRetype = document.getElementById('signupPasswordRetype');
-
-        function clearValues() {
-            signupEmail.value = ""
-            signupPassword.value = ""
-            signupPasswordRetype.value = ""
-        }
-
-        if(signupPassword.value != signupPasswordRetype.value) {
-            toast.error('These passwords do not match')
-            clearValues()
-            return;
-        };
-
-        const fetchOpts = {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email: signupEmail.value, password: signupPassword.value})
-        };
-
-        let { msg, error } = await fetch(NEW_USER_SIGNUP, fetchOpts).then(res => res.json());
-
-        if(error) {
-            toast.error(error)
-            clearValues()
-            return;
-        }
-
-        toast.success(msg)
-        clearValues()
-        return;
-    }
+    
     return (
-        <div>
-            <form>
-                <label htmlFor="signupEmail">
-                    Email:
-                    <input type="text" id="signupEmail" name="email"/>
-                </label>
-                <label htmlFor="signupPassword">
-                    Password:
-                    <input type="password" id="signupPassword" name="password"/>
-                </label>
-                <label htmlFor="signupPasswordRetype">
-                    Retype Password:
-                    <input type="password" id="signupPasswordRetype" name="password"/>
-                </label>
-                <button onClick={(e) => {
-                    e.preventDefault()
-                    handleSignupClick()
-                }}>
-                    Create New Account
-                </button>
-            </form>
-            <ToastContainer />
-        </div>
+        <form className="flex justify-center items-center h-screen">
+            <div className="grid gap-6 w-1/4 p-4 border border-gray-300 rounded shadow">
+                <TextInputs
+                    labelChildren='Email'
+                    inputId='signupEmail'
+                    inputType='text'
+                    inputName='email'
+                />
+                <TextInputs
+                    labelChildren='Password'
+                    inputId='signupPassword'
+                    inputType='password'
+                    inputName='password'
+                />
+                <TextInputs
+                    labelChildren='Retype Password'
+                    inputId='signupPasswordRetype'
+                    inputType='password'
+                    inputName='password'
+                />
+                <SignupBtn />
+            </div>
+        </form>
     )
 }
